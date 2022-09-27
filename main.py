@@ -8,7 +8,7 @@ import datasetgen
 
 intents = discord.Intents.all()
 bot = discord.Bot(intents=intents) #init discord bot
-DISCORD_TOKEN = "OTU1MTU0MzE0NTYzODI5Nzgw.Yjdixg.3nOlcdVRxCal7pTX52dA3JEV7o8"
+DISCORD_TOKEN = ""
 
 bot.prompts=getNames() #get the names of all prompts in the prompts.json file, will refresh on restart, or if the file is edited
 bot.engines = getEngines()
@@ -26,7 +26,7 @@ async def on_ready(): #when bot is ready
     print("Bot is ready!")
     await bot.change_presence(activity=discord.Game(name="Status: Ready To Roll"))
 
-@bot.slash_command(guild_ids=[955156825492324422, 719250692845600778], description="start a conversation with the AI")
+@bot.slash_command(guild_ids=[], description="start a conversation with the AI")
 async def talk(ctx,
 format: Option(str, "How you communicate with the bot",choices=["voice", "text"]), 
 #prompt: Option(str, "Choose a prompt for the conversation",choices=bot.prompts), 
@@ -65,7 +65,7 @@ engine: Option(str, "Choose an engine for the conversation", choices=bot.engines
 
 
 
-@bot.slash_command(guild_ids=[955156825492324422, 719250692845600778], description="view the currently saved prompts")
+@bot.slash_command(guild_ids=[], description="view the currently saved prompts")
 async def viewprompts(ctx,
 name: Option(str, "view one of the following prompts", choices=bot.prompts)):
     if(name == "view all"):
@@ -73,7 +73,7 @@ name: Option(str, "view one of the following prompts", choices=bot.prompts)):
     else:
         await ctx.send(getPrompt(name))
 
-@bot.slash_command(guild_ids=[955156825492324422, 719250692845600778], description="add a new prompt to the bot")
+@bot.slash_command(guild_ids=[], description="add a new prompt to the bot")
 async def addprompt(ctx,
 name: Option(str, "name of the prompt"),
 ):
@@ -87,7 +87,7 @@ name: Option(str, "name of the prompt"),
             break
     bot.prompts = getNames()
 
-@bot.slash_command(guild_ids=[955156825492324422, 719250692845600778], description="remove a created prompt")
+@bot.slash_command(guild_ids=[], description="remove a created prompt")
 async def removeprompt(ctx,
 name: Option(str, "remove one of the following prompts", choices=bot.prompts)):
     print("removing" + name)
@@ -95,7 +95,7 @@ name: Option(str, "remove one of the following prompts", choices=bot.prompts)):
     await ctx.send("prompt '" + name + "' removed")
     bot.prompts = getNames()
 
-@bot.slash_command(guild_ids=[955156825492324422, 719250692845600778], description="add a new engine to the bot")
+@bot.slash_command(guild_ids=[], description="add a new engine to the bot")
 async def addengine(ctx,
 name: Option(str, "name to view on discord"),
 engine: Option(str, "engine string")
@@ -104,7 +104,7 @@ engine: Option(str, "engine string")
     await ctx.send("Engine added")
     bot.engines = getEngines()
 
-@bot.slash_command(guild_ids=[955156825492324422, 719250692845600778], description="remove a created engine")
+@bot.slash_command(guild_ids=[], description="remove a created engine")
 async def removeengine(ctx,
 name: Option(str, "remove one of the following engines", choices=bot.engines)):
     print("removing" + name)
@@ -113,7 +113,7 @@ name: Option(str, "remove one of the following engines", choices=bot.engines)):
     bot.engines = getEngines()
 
 
-@bot.slash_command(guild_ids=[955156825492324422, 719250692845600778], description="change generation parameters")
+@bot.slash_command(guild_ids=[], description="change generation parameters")
 async def changeparms(ctx,
 name: Option(str, "choose parameter to change", choices=params),
 value: Option(int, "value to change parameter to")
@@ -125,12 +125,12 @@ value: Option(int, "value to change parameter to")
             print(paran + " = " + str(value))
             await ctx.respond(name + " set to " + str(value))
 
-@bot.slash_command(guild_ids=[955156825492324422, 719250692845600778], description="view generation parameters")
+@bot.slash_command(guild_ids=[], description="view generation parameters")
 async def viewparams(ctx,
 ):
     await ctx.respond("temperature: " + str(bot.temp) + "\nmax_tokens: " + str(bot.max_tokens) + "\npresence_penalty: " + str(bot.presence_penalty) + "\nbackforths: " + str(bot.backforths))
 
-@bot.slash_command(guild_ids=[955156825492324422, 719250692845600778], description="generate a dataset for more advanced AI responces")
+@bot.slash_command(guild_ids=[], description="generate a dataset for more advanced AI responces")
 async def datasetgenerator(ctx,
 name: Option(str, "choose parameter to change"),
 type: Option(str, "type of dataset input", choices =["Question", "Prompt"]),
