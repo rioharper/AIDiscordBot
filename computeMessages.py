@@ -15,7 +15,7 @@ intents = discord.Intents.all()
 intents.message_content = True
 bot = discord.Bot(intents=intents) #init discord bot
 
-openai.api_key = "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"
+openai.api_key = ""
 
 bot.temp = 0.8
 bot.max_tokens = 125
