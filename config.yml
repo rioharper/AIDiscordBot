@@ -1,0 +1,10 @@
+keys:
+  discordtoken: ""
+  openaikey: ""
+voice:
+  enabled: true
+  vcfilepath: ""
+  vcconfigpath: ""
+text:
+  enabled: true
+  chatlogfolder: ""
