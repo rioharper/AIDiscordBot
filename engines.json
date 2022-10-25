@@ -3,10 +3,5 @@
         "created by:": "default",
         "name": "default",
         "engine": "text-curie-001"
-    },
-    {
-        "created by:": "Fetus Boy",
-        "name": "Rio",
-        "engine": "davinci:ft-cazenovia-high-school:culmfinal-2022-09-21-01-27-56"
     }
 ]
