@@ -5,38 +5,42 @@ import os
 from jsonfunk import *
 
 
+args = setconfig()
 
 stop=["\n", "AI:"]
 endconvos=["stop", "goodbye", "bye", "Stop conversation.", "see you" "Stop.", "Bye.", "Goodbye.", "See you."]
 Human = "\nHuman: "
 Bot = "\nAI:"
 
+temp = args["genparams"]["temp"]
+max_tokens = args["genparams"]["max_tokens"]
+presence_penalty = args["genparams"]["presence_penalty"]
+backforths= args["genparams"]["backforths"]
+
 intents = discord.Intents.all()
 intents.message_content = True
 bot = discord.Bot(intents=intents) #init discord bot
 
-openai.api_key = ""
-
-bot.temp = 0.8
-bot.max_tokens = 125
-bot.presence_penalty = 0.25
-bot.backforths= 8
+openai.api_key = args['keys']['openaikey']
 
 class ai(): #ai methods that all communication classes inherit
-    def __init__(self, model, ctx):
-        self.prompt = ""
+    def __init__(self, model, ctx, prompt):
+        self.prompt = prompt
         self.log = self.prompt
         self.model = getEngine(model)
         self.ctx = ctx
-        self.filename = "chatlog-"+ str(time.strftime("%Y%m%d-%H%M%S"))+".txt"
+        self.filename = "chatlog-" + str(time.strftime("%Y%m%d-%H%M%S")) + ".txt"
+        self.filepath = args["text"]["chatlogfolder"] + "/" + self.filename
         self.reps = 0
-        f = open(self.filename, "w")
+        f = open(self.filepath, "w")
         f.write("Engine: " + self.model+"\n") #write to logfile
         f.close()
         self.stopconvo = False
 
     def writeToChatLog(self, input, response): 
-        with open(self.filename, "a+") as f:
+        with open(self.filepath, "a+") as f:
+            input = input.strip("\n")
+            response = response.strip("\n")
             data = f.read()
             data+= "\n" + "Human: " + input + "\nAI:" + response
             f.write(data) #write to logfile
@@ -44,9 +48,10 @@ class ai(): #ai methods that all communication classes inherit
     async def endConvo(self, input): #ends the current conversation, deletes any convo files, then uploads the log file to the discord channel
         if input in endconvos: 
             print("stopping chat")
-            await self.ctx.send(file=discord.File(self.filename))
+            await self.ctx.send(file=discord.File(self.filepath))
             await self.ctx.send("------Stopping Conversation. You can view the chatlog above------")
-            os.remove(self.filename)
+            if args["text"]["savechatlogs"] == False:
+                os.remove(self.filepath)
             self.stopconvo = True
             return True
         return False
@@ -58,9 +63,9 @@ class ai(): #ai methods that all communication classes inherit
         response = openai.Completion.create(
             model=self.model,
             prompt=self.log,
-            temperature=bot.temp,
-            max_tokens=bot.max_tokens,
-            presence_penalty = bot.presence_penalty,
+            temperature=temp,
+            max_tokens=max_tokens,
+            presence_penalty = presence_penalty,
             stop=[" END", "\nAI:", "\nHuman:", "\nEND"]
         )
         return str(response.choices[0]['text'])
@@ -68,7 +73,7 @@ class ai(): #ai methods that all communication classes inherit
 
     async def resp(self, input): #contacts openAI engine to get a response to the user input
         print("Human: " + input)
-        if self.reps % bot.backforths == 0 and self.reps != 0:
+        if self.reps % backforths == 0 and self.reps != 0:
             self.log = self.prompt + Human + input + Bot
             print("log cleared")
         else: self.log += Human + input + Bot
