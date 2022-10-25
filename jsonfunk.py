@@ -1,6 +1,8 @@
 import json
 import os
-personalitiesjson = "personalities.json"
+import yaml
+
+#personalitiesjson = "personalities.json"
 enginejson = "engines.json"
 
 def delfiles(directory, ext): #delete any straggler files from current directory
@@ -18,48 +20,50 @@ def checkForFiles(directory):
     try: delfiles(directory, ".ogg")
     except : pass
 
-#def getParam(name):
-    
 
-def getNames(): #return names of all currently saved prompts
-    names = []
-    with open(personalitiesjson) as json_file:
-        data = json.load(json_file)
-        for name in data:
-            names.append(name['name'])
-    return names
+def setconfig():
+    with open('config.yml', 'r') as file:
+        return yaml.safe_load(file)    
 
-def getPrompt(pname): #returns the prompt of a specific prompt
-    with open(personalitiesjson) as json_file:
-            data = json.load(json_file)
-            for name in data:
-                if(name['name'] == pname):
-                    return name['prompt']
-            print("prompt not found")
+# def getNames(): #return names of all currently saved prompts
+#     names = []
+#     with open(personalitiesjson) as json_file:
+#         data = json.load(json_file)
+#         for name in data:
+#             names.append(name['name'])
+#     return names
 
-def addpromptJson(name, prompt, createdby): #adds a new prompt to the json file
-    new = {"created by": createdby,    
-       "name": name, 
-       "prompt": prompt
-       }
-    with open(personalitiesjson, "r+") as json_file:
-        data = json.load(json_file)
-        data.append(new)
-        json_file.seek(0)
-        json.dump(data, json_file, indent=4)
+# def getPrompt(pname): #returns the prompt of a specific prompt
+#     with open(personalitiesjson) as json_file:
+#             data = json.load(json_file)
+#             for name in data:
+#                 if(name['name'] == pname):
+#                     return name['prompt']
+#             print("prompt not found")
 
-def removePrompt(name): #removes a prompt from the json file
-    with open(personalitiesjson, "r") as json_file:
-        data = json.load(json_file)
-    counter = 0
-    for personlity in data:
-        if(personlity['name'] == name):
-            data.pop(counter)
-            print("removed")
-            break
-        counter += 1
-    with open(personalitiesjson, 'w') as data_file:
-        json.dump(data, data_file, indent=4)    
+# def addpromptJson(name, prompt, createdby): #adds a new prompt to the json file
+#     new = {"created by": createdby,    
+#        "name": name, 
+#        "prompt": prompt
+#        }
+#     with open(personalitiesjson, "r+") as json_file:
+#         data = json.load(json_file)
+#         data.append(new)
+#         json_file.seek(0)
+#         json.dump(data, json_file, indent=4)
+
+# def removePrompt(name): #removes a prompt from the json file
+#     with open(personalitiesjson, "r") as json_file:
+#         data = json.load(json_file)
+#     counter = 0
+#     for personlity in data:
+#         if(personlity['name'] == name):
+#             data.pop(counter)
+#             print("removed")
+#             break
+#         counter += 1
+#     with open(personalitiesjson, 'w') as data_file:
+#         json.dump(data, data_file, indent=4)    
  
 def getEngines(): #returns the names of all currently saved engines
     engines = []
