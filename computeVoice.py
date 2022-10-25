@@ -9,6 +9,9 @@ from discord import FFmpegPCMAudio
 from ctts import cTTS
 import computeMessages
 
+args = setconfig()
+
+
 '''an extention of the class AI that will listen and play audio'''
 class aud(computeMessages.ai):
         def __init__(self, engine, ctx, voice):
@@ -60,5 +63,3 @@ class aud(computeMessages.ai):
         async def vcresp(self, input): 
             responce = await self.resp(input)
             await self.vcsynth(responce, self.voice)
-        
-    
