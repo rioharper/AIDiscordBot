@@ -4,3 +4,4 @@ py-cord @ git+https://github.com/rioharper/pycord-transcription.git@5b8c3d866bec
 pydub==0.25.1
 TTS
 google-cloud-speech
+PyNaCl
