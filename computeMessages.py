@@ -8,7 +8,7 @@ from jsonfunk import *
 args = setconfig()
 
 stop=["\n", "AI:"]
-endconvos=["stop", "goodbye", "bye", "Stop conversation.", "see you" "Stop.", "Bye.", "Goodbye.", "See you."]
+endconvos=["stop", "goodbye", "bye", "Stop conversation.", "see you", "Stop.", "Bye.", "Goodbye.", "See you."]
 Human = "\nHuman: "
 Bot = "\nAI:"
 
@@ -24,8 +24,8 @@ bot = discord.Bot(intents=intents) #init discord bot
 openai.api_key = args['keys']['openaikey']
 
 class ai(): #ai methods that all communication classes inherit
-    def __init__(self, model, ctx, prompt):
-        self.prompt = prompt
+    def __init__(self, model, ctx):
+        self.prompt = ""
         self.log = self.prompt
         self.model = getEngine(model)
         self.ctx = ctx
