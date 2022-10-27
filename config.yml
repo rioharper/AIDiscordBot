@@ -9,7 +9,7 @@ voice:
 text:
   enabled: true
   savechatlogs: true
-  chatlogfolder: "" #leave empty if you want it to not save to a fodler
+  chatlogfolder: "PATH_TO_FOLDER"
 genparams:
   temp: 0.9
   max_tokens: 125
