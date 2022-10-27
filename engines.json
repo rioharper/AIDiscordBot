@@ -2,6 +2,6 @@
     {
         "created by:": "default",
         "name": "default",
-        "engine": "text-curie-001"
+        "engine": "text-davinci-002"
     }
 ]
